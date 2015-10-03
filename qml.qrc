@@ -12,5 +12,7 @@
         <file>Manager.qml</file>
         <file>yellow.qml</file>
         <file>none.qml</file>
+        <file>SelfDestroyingRect.qml</file>
+        <file>javascript_object.js</file>
     </qresource>
 </RCC>

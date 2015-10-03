@@ -3,6 +3,7 @@ import QtQuick.Controls 1.3
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 import "test.js" as JS
+
 ApplicationWindow {
     title: qsTr("Hello World")
     width: 640
@@ -13,6 +14,19 @@ ApplicationWindow {
         id: root
         width: 200
         height: 200
+        Rectangle {
+            id: someComponent
+             Text { id: mytext;text: "a"}
+            function someSlot(v) {
+                mytext.text = v
+            }
+        }
+
+        Component.onCompleted: {
+            JS.internalQmlObject.someSignal.connect(someComponent.someSlot);
+            JS.doSomething();
+        }
+
 
         ListView {
             id: listTest;
@@ -21,10 +35,10 @@ ApplicationWindow {
             model: ListModel {
                 id: modelTest;
 
-                ListElement { name: "Banana";page:"yellow" }
-                ListElement { name: "Apple";page:"pink"  }
-                ListElement { name: "Orange";page:"orange" }
-                ListElement { name: "Pear";page:"white"   }
+                ListElement { name: "Banana";page:"yellow";link:"http://192.168.1.111/mytestjson/index.php?para=banana" }
+                ListElement { name: "Apple";page:"pink";link:"http://192.168.1.111/mytestjson/index.php?para=apple"  }
+                ListElement { name: "Orange";page:"orange";link:"http://192.168.1.111/mytestjson/index.php?para=orange" }
+                ListElement { name: "Pear";page:"white";link:"http://192.168.1.111/mytestjson/index.php?para=pear"   }
             }
             delegate: Item {
                 id: item;
@@ -88,14 +102,15 @@ ApplicationWindow {
                     visible: !item.isCurrent;
                     onClicked: {
                         console.log(model.index);
-                        //console.log(listTest.model.get(model.index).name)
+                        console.log(listTest.model.get(model.index).link)
                         var mypageloader = listTest.model.get(model.index).page + ".qml";
                         if(mypageloader != "yellow.qml"){
                             mypageloader = "none.qml";
                         }
 
-                        console.log(mypageloader);
-                        JS.newpage(mypageloader);
+                        //console.log(mypageloader);
+                        //JS.newpage(mypageloader);
+                        JS.getdatajson(listTest.model.get(model.index).link);
                     }
                 }
                 MouseArea {
