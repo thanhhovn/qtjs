@@ -1,7 +1,13 @@
 var internalQmlObject = Qt.createQmlObject('import QtQuick 2.0; QtObject { signal someSignal(string value) }', Qt.application, 'InternalQmlObject');
 
 function doSomething() {
-    //internalQmlObject.someSignal("aaaaaaaaaaaaaaaaaaaaaaa");
+    var mytext = labelTest.text;
+    internalQmlObject.someSignal(mytext);
+}
+
+function doSomethingstep1() {
+    var mytext = labelTeststep1.text;
+    internalQmlObject.someSignal(mytext);
 }
 
 function getData(jsonurl) {
@@ -58,3 +64,8 @@ function getdatajson(urljson){
     getData(urljson);
 }
 
+function pushtest(){
+    var myloader = Qt.createQmlObject('import QtQuick 2.4; Loader {source : "zone.qml"}', root);
+    stackView.push({ item: Qt.resolvedUrl("PlaceDetails.qml") ,properties: {"myloader":myloader}, destroyOnPop:false })
+
+}

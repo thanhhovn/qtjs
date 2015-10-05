@@ -14,5 +14,8 @@
         <file>none.qml</file>
         <file>SelfDestroyingRect.qml</file>
         <file>javascript_object.js</file>
+        <file>mainext.qml</file>
+        <file>PlaceDetails.qml</file>
+        <file>PlaceDetailsstep1.qml</file>
     </qresource>
 </RCC>
