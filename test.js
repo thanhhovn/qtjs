@@ -1,4 +1,5 @@
 var internalQmlObject = Qt.createQmlObject('import QtQuick 2.0; QtObject { signal someSignal(string value) }', Qt.application, 'InternalQmlObject');
+var internalQmlObjectarr = Qt.createQmlObject('import QtQuick 2.0; QtObject { signal someSignal(ListModel value) }', Qt.application, 'InternalQmlObject');
 
 function doSomething() {
     var mytext = labelTest.text;
@@ -13,7 +14,7 @@ function doSomethingstep1() {
 function getData(jsonurl) {
     var xmlhttp = new XMLHttpRequest();
     var url = jsonurl;
-    console.log("aaaaaaaaaaa");
+    //console.log("aaaaaaaaaaa");
 
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -26,9 +27,27 @@ function getData(jsonurl) {
 
 function myFunction(response) {
     var arr = JSON.parse(response);
-    console.log(arr["content"]);
+    var totalobj = arr["posts"].length;
+    var i=0;
 
+    var listView = Qt.createQmlObject ('import QtQuick 2.4; ListView {anchors.fill: parent}', parent);
+    var modelposts = Qt.createQmlObject('import QtQuick 2.4; ListModel {}', parent);
+    var comp = Qt.createQmlObject('import QtQuick 2.4; Component { Text { text: "(" + index + ") " +postid + " " + title + " " + url + " " + content + " " + attachments} }', parent);
+    //var comp = Qt.createQmlObject('import QtQuick 2.4; Component { Text { text: "(" + index + ") " +postid + " " + title + " " + url + " " + content + " " + attachments},onClicked:console.log(index) }', parent);
+    var comp = Qt.createComponent("mycomp.qml");
+    //modelposts.append({"cost": 15.95, "name":"Pizza"});
+    //console.log(modelposts[0]);
 
+    for(i=0;i<totalobj;i++){
+        console.log(arr["posts"][i]["id"]);
+        console.log(arr["posts"][i]["title"]);
+        modelposts.append({"postid": arr["posts"][i]["id"], "title": arr["posts"][i]["title"],"url":arr["posts"][i]["url"],"content":arr["posts"][i]["content"],"attachments":arr["posts"][i]["attachments"][0]["url"]});
+    }
+    listView.model = modelposts;
+    listView.delegate = comp;
+
+    console.log(listView.model.get(0).postid) //Problem 4: I hope :)
+//console.log(modelposts[1]["postid"]);
 
     //var mycmd = 'import QtQuick 2.4; Text { text: "' + arr["content"] + '" }';
     //var myloader = Qt.createQmlObject(mycmd, myloaderid,"dynamicSnippet1");

@@ -19,6 +19,20 @@ ApplicationWindow {
           id: labelTeststep1
           text: "testthanhhostep1"
       }
+    Label {
+          visible:false
+          id: nextstepattachment
+          text: ""
+          states: State {
+              name: "showme"
+              PropertyChanges { target: nextstep;text:"aaaaaaabbbbcc";visible:true }
+          }
+      }
+    Label {
+          visible:false
+          id: nextstepcontent
+          text: ""
+      }
 
     StackView {
          id: stackView
@@ -26,7 +40,7 @@ ApplicationWindow {
          Component.onCompleted: {
              push( { item: items[0], destroyOnPop:false })
          }
-         property variant items: [Qt.resolvedUrl("PlaceDetails.qml"),Qt.resolvedUrl("PlaceDetailsstep1.qml"),Qt.resolvedUrl("Sprite.qml"),comp3.createObject()]  // objects from the components
+         property variant items: [Qt.resolvedUrl("PlaceDetails.qml"),Qt.resolvedUrl("PlaceDetailsstep1.qml"),Qt.resolvedUrl("Details.qml"),comp3.createObject()]  // objects from the components
      }
     Rectangle {
         id: someComponent
@@ -119,13 +133,14 @@ ApplicationWindow {
                  }
                  if(pageindex.pagenum === 0){
                     pageindex.pagenum = 0
-                     enabled = false
-                     next.enabled = true
+                     //enabled = false
+                     //next.enabled = true
                  }
                  //stackView.pop()
                  //var myloader = Qt.createQmlObject('import QtQuick 2.4; Loader {source : "zone.qml"}', parent);
                  //labelTest.text = "zzzzzzzzzzzzzzzzzzzzzzzzz"
-                 stackView.push({ item: stackView.items[pageindex.pagenum],properties: { "mycomp" : someComponent } , destroyOnPop:true })
+                 //stackView.push({ item: stackView.items[pageindex.pagenum],properties: { "mycomp" : someComponent } , destroyOnPop:true })
+                 stackView.push({ item: stackView.items[0],properties: { "mycomp" : someComponent } , destroyOnPop:true })
                  //enabled = false
                  //next.enabled = true
              }
